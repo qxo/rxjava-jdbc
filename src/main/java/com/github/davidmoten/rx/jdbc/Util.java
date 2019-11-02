@@ -120,8 +120,10 @@ public final class Util {
             }
             if (ps != null && !isClosed) {
                 try {
-                    ps.cancel();
-                    log.debug("cancelled {}", ps);
+                    if (!ps.getConnection().isClosed()) {
+                        ps.cancel();
+                        log.debug("cancelled {}", ps);
+                    }
                 } catch (SQLException e) {
                     log.debug(e.getMessage());
                 }
